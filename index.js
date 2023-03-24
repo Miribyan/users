@@ -7,10 +7,10 @@ import LocalStrategy from "passport-local";
 import session from "express-session";
 import MySQLStore from "connect-mysql";
 import { connect } from "http2";
-import bcrypt from "bcrypt"
-import path from "path"
+import bcrypt from "bcrypt";
+import path from "path";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const MySQLSessionStore = MySQLStore(session);
 
@@ -57,19 +57,19 @@ passport.use(
             message: "Incorrect email or password.",
           });
         }
-       
-        bcrypt.compare(password, row.password, function(err, result) {
+
+        bcrypt.compare(password, row.password, function (err, result) {
           if (err) {
-            return callback(err)
+            return callback(err);
           } else if (result) {
             console.log("Sucess callback");
             return callback(null, row);
           } else {
-            return callback(null, false, { message: "Incorrect email or password." })
+            return callback(null, false, {
+              message: "Incorrect email or password.",
+            });
           }
         });
-
-       
       });
     }
   )
@@ -113,8 +113,14 @@ app.get("*", (req, res) => {
 
 router.get("/userinfo", passport.authenticate("session"), (req, res) => {
   if (req.user) {
-    query(`UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE email = "${req.user.email}"`, (result) => {
-      if (result){ console.log(result)}})
+    query(
+      `UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE email = "${req.user.email}"`,
+      (result) => {
+        if (result) {
+          console.log(result);
+        }
+      }
+    );
     res.status(200);
     res.send(req.user);
   } else {
@@ -138,13 +144,15 @@ router.post("/login", (req, res) => {
   query(`SELECT * FROM users WHERE email = "${email}"`, (user) => {
     if (user.length > 0 && user[0].isBlocked === 0) {
       passport.authenticate("local", {
-        successRedirect:`${process.env.REACT_APP_FRONTEND_URL}/users`,
+        successRedirect: `${process.env.REACT_APP_FRONTEND_URL}/users`,
         failureRedirect: `${process.env.REACT_APP_FRONTEND_URL}?failure=true`,
       })(req, res);
     } else if (user.length > 0 && user[0].isBlocked === 1) {
       res.status(402).redirect(`${process.env.REACT_APP_FRONTEND_URL}?blocked`);
     } else {
-      res.status(404).redirect(`${process.env.REACT_APP_FRONTEND_URL}?not_found`);
+      res
+        .status(404)
+        .redirect(`${process.env.REACT_APP_FRONTEND_URL}?not_found`);
     }
   });
 });
@@ -154,43 +162,37 @@ router.post("/reginfo", async (req, res) => {
   const lastname = req.body.lastname;
   const email = req.body.email;
 
-  
-if (!name || !lastname || !email || !req.body.password) {
+  if (!name || !lastname || !email || !req.body.password) {
     res.status(408).send("Fields can't be empty");
     return;
   }
 
- const password = bcrypt.hash(req.body.password, 10, function(err, hash) {
+  const password = bcrypt.hash(req.body.password, 10, function (err, hash) {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
       query(`SELECT * FROM users WHERE email = "${email}";`, (result) => {
-   
-    if (result.length > 0 && result[0].isBlocked == 0) {
-      res.status(409).send("User is already exist");
-      return;
-    } else if (result.length > 0 && result[0].isBlocked == 1) {
-      res.status(410).send("User have been blocked");
-      return;
-    } else {
-      query(
-        `INSERT INTO users (name, lastname, email, password) VALUES ("${name}", "${lastname}", "${email}", "${hash}")`,
-        (result) => {
-          if (result) {
-            res.status(200).send("Registered successfully");
-            return;
-          }
+        if (result.length > 0 && result[0].isBlocked == 0) {
+          res.status(409).send("User is already exist");
+          return;
+        } else if (result.length > 0 && result[0].isBlocked == 1) {
+          res.status(410).send("User have been blocked");
+          return;
+        } else {
+          query(
+            `INSERT INTO users (name, lastname, email, password) VALUES ("${name}", "${lastname}", "${email}", "${hash}")`,
+            (result) => {
+              if (result) {
+                res.status(200).send("Registered successfully");
+                return;
+              }
+            }
+          );
         }
-      );
+      });
     }
   });
-    }
-  });
-  console.log(password)
-
-  
-
-  
+  console.log(password);
 });
 
 router.post("/block", (req, res) => {
@@ -246,7 +248,10 @@ router.delete("/delete", (req, res) => {
 app.post("/logout", (req, res) => {
   req.logout(() => {
     res
-      .clearCookie("connect.sid", { domain: `${process.env.REACT_APP_FRONTEND_URL}`, path: "/" })
+      .clearCookie("connect.sid", {
+        domain: `${process.env.REACT_APP_FRONTEND_URL}`,
+        path: "/",
+      })
       .redirect(`${process.env.REACT_APP_FRONTEND_URL}`);
   });
 });
