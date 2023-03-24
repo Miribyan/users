@@ -252,7 +252,7 @@ function Table(props) {
               </span>
             </p>
           </div>
-          <form action="/logout" method="POST" credentials='include'>
+          <form action="/logout" method="POST" credentials="include">
             <button
               type="submit"
               className="group flex justify-center items-center space-x-1 rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
@@ -390,9 +390,7 @@ function Table(props) {
                         )}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {format(
-                          new Date(person.last_login),
-                          "yyyy-MM-dd")}
+                        {format(new Date(person.last_login), "yyyy-MM-dd")}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <span

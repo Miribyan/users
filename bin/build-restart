@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cd /Users/marat.miribyan/Projects/itransition/task4/client; npm run build; cd ../; node index.js
