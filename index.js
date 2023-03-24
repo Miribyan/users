@@ -10,7 +10,8 @@ import { connect } from "http2";
 import bcrypt from "bcrypt";
 import path from "path";
 
-require("dotenv").config();
+import {config} from "dotenv"
+config()
 
 const MySQLSessionStore = MySQLStore(session);
 
