@@ -48,7 +48,7 @@ app.use("/", router);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.authenticate("session"));
-app.use(express.static(path.join(import.meta.url, "client/build")));
+app.use(express.static("./client/build"));
 
 passport.use(
   new LocalStrategy(
@@ -111,10 +111,6 @@ const query = (sql, callback) => {
   });
 };
 
-app.get("*", (req, res) => {
-  res.sendFile("index.html", { root: "./client/build" });
-});
-
 router.get("/userinfo", passport.authenticate("session"), (req, res) => {
   if (req.user) {
     query(
@@ -148,15 +144,13 @@ router.post("/login", (req, res) => {
   query(`SELECT * FROM users WHERE email = "${email}"`, (user) => {
     if (user.length > 0 && user[0].isBlocked === 0) {
       passport.authenticate("local", {
-        successRedirect: `${process.env.REACT_APP_FRONTEND_URL}/users`,
-        failureRedirect: `${process.env.REACT_APP_FRONTEND_URL}?failure=true`,
+        successRedirect: `/users-table`,
+        failureRedirect: `/?failure=true`,
       })(req, res);
     } else if (user.length > 0 && user[0].isBlocked === 1) {
-      res.status(402).redirect(`${process.env.REACT_APP_FRONTEND_URL}?blocked`);
+      res.status(402).redirect(`/?blocked`);
     } else {
-      res
-        .status(404)
-        .redirect(`${process.env.REACT_APP_FRONTEND_URL}?not_found`);
+      res.status(404).redirect(`/?not_found`);
     }
   });
 });
@@ -256,8 +250,12 @@ app.post("/logout", (req, res) => {
         domain: `${process.env.REACT_APP_FRONTEND_URL}`,
         path: "/",
       })
-      .redirect(`${process.env.REACT_APP_FRONTEND_URL}`);
+      .redirect(`/`);
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile("index.html", { root: "./client/build" });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}…`));

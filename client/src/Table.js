@@ -15,7 +15,7 @@ function Table(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3002/users", { credentials: "include" })
+    fetch("/users", { credentials: "include" })
       .then((result) => {
         if (result.status === 401) {
           window.location.href = "/";
@@ -51,7 +51,7 @@ function Table(props) {
     const isActive = selectedID.find((item) => item === props.userInfo.id);
 
     if (isActive) {
-      const url = "http://localhost:3002/logout";
+      const url = "/logout";
       const data = props.userInfo;
 
       fetch(url, {
@@ -64,7 +64,7 @@ function Table(props) {
       }).then(() => navigate("/"));
     }
 
-    const url = "http://localhost:3002/block";
+    const url = "/block";
     const data = selectedID;
 
     fetch(url, {
@@ -76,7 +76,7 @@ function Table(props) {
       body: JSON.stringify(data),
     }).then((data) => {
       if (data.status === 200) {
-        fetch("http://localhost:3002/users", { credentials: "include" })
+        fetch("/users", { credentials: "include" })
           .then((result) => {
             if (result.status === 401) {
               window.location.href = "/";
@@ -96,7 +96,7 @@ function Table(props) {
   const clickUnblock = () => {
     const selectedID = selectedPeople.map((person) => person.id);
 
-    const url = "http://localhost:3002/unblock";
+    const url = "/unblock";
     const data = selectedID;
 
     fetch(url, {
@@ -108,7 +108,7 @@ function Table(props) {
       body: JSON.stringify(data),
     }).then((data) => {
       if (data.status === 200) {
-        fetch("http://localhost:3002/users", { credentials: "include" })
+        fetch("/users", { credentials: "include" })
           .then((result) => {
             if (result.status === 401) {
               window.location.href = "/";
@@ -128,7 +128,7 @@ function Table(props) {
   const clickDelete = () => {
     const selectedID = selectedPeople.map((person) => person.id);
 
-    const url = "http://localhost:3002/delete";
+    const url = "/delete";
     const data = selectedID;
 
     fetch(url, {
@@ -140,7 +140,7 @@ function Table(props) {
       body: JSON.stringify(data),
     }).then((data) => {
       if (data.status === 200) {
-        fetch("http://localhost:3002/users", { credentials: "include" })
+        fetch("/users", { credentials: "include" })
           .then((result) => {
             if (result.status === 401) {
               window.location.href = "/";
@@ -252,7 +252,7 @@ function Table(props) {
               </span>
             </p>
           </div>
-          <form action="http://localhost:3002/logout" method="POST" credentials='include'>
+          <form action="/logout" method="POST" credentials='include'>
             <button
               type="submit"
               className="group flex justify-center items-center space-x-1 rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"

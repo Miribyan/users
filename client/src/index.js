@@ -12,9 +12,7 @@ import SignIn from "./SignIn";
 import Registration from "./Registration";
 import Table from "./Table";
 
-
 const AuthUser = ({ userInfo }) => {
-
   if (userInfo !== null) {
     return <Outlet />;
   } else {
@@ -26,7 +24,7 @@ const App = () => {
   const [userInfo, setUserInfo] = useState(undefined); // undefined | null | Object
 
   useEffect(() => {
-    fetch(`${process.env.BACKEND_URL}/userinfo`, { credentials: "include" })
+    fetch(`/userinfo`, { credentials: "include" })
       .then((result) => {
         if (result.status === 404) {
           return Promise.resolve(null);
@@ -45,7 +43,7 @@ const App = () => {
         <Route path="/" element={<SignIn />} />
         <Route path="/reg" element={<Registration />} />
         <Route element={<AuthUser userInfo={userInfo} />}>
-          <Route path="/users" element={<Table userInfo={userInfo} />} />
+          <Route path="/users-table" element={<Table userInfo={userInfo} />} />
         </Route>
       </Routes>
     </BrowserRouter>
