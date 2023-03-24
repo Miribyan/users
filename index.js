@@ -13,7 +13,7 @@ import { config } from "dotenv";
 
 config();
 
-console.log(process.env)
+console.log(process.env);
 
 const MySQLSessionStore = MySQLStore(session);
 
@@ -112,7 +112,7 @@ const query = (sql, callback) => {
 };
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  res.sendFile("./client/build/index.html");
 });
 
 router.get("/userinfo", passport.authenticate("session"), (req, res) => {
