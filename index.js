@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(
   cors({
-    origin: REACT_APP_FRONTEND_URL,
+    origin: process.env.REACT_APP_FRONTEND_URL,
     credentials: true,
   })
 );
@@ -45,7 +45,7 @@ app.use("/", router);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.authenticate("session"));
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(import.meta.url, "client/build")));
 
 passport.use(
   new LocalStrategy(
