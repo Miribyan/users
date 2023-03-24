@@ -35,7 +35,7 @@ app.use(
     store: new MySQLSessionStore({
       config: {
         user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
+        password: process.env.DB_PASS,
         database: process.env.DB_NAME,
       },
     }),
@@ -92,7 +92,7 @@ function createConnection() {
   return mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     insecureAuth: true,
   });
