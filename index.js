@@ -9,9 +9,9 @@ import MySQLStore from "connect-mysql";
 import { connect } from "http2";
 import bcrypt from "bcrypt";
 import path from "path";
+import { config } from "dotenv";
 
-import {config} from "dotenv"
-config()
+config();
 
 const MySQLSessionStore = MySQLStore(session);
 
