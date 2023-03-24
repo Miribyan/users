@@ -112,7 +112,7 @@ const query = (sql, callback) => {
 };
 
 app.get("*", (req, res) => {
-  res.sendFile("./client/build/index.html");
+  res.sendFile("index.html", { root: "./client/build" });
 });
 
 router.get("/userinfo", passport.authenticate("session"), (req, res) => {
