@@ -159,8 +159,7 @@ router.post("/reginfo", async (req, res) => {
   const name = req.body.name;
   const lastname = req.body.lastname;
   const email = req.body.email;
-  
- 
+
   if (!name || !lastname || !email || !req.body.password) {
     res.status(408).send("Fields can't be empty");
     return;
@@ -182,8 +181,6 @@ router.post("/reginfo", async (req, res) => {
             `INSERT INTO users (name, lastname, email, password) VALUES ("${name}", "${lastname}", "${email}", "${hash}")`,
             (result) => {
               if (result) {
-              
-                
                 res.status(200).send("Registered successfully");
                 return;
               }
@@ -198,35 +195,43 @@ router.post("/reginfo", async (req, res) => {
 
 router.post("/block", (req, res) => {
   const id_list = req.body.join(",");
-  console.log(req.body.join(","));
-  try {
-    const result = query(
-      `UPDATE users SET isBlocked='1' WHERE id IN (${id_list})`,
-      (stat) => {
-        console.log(stat);
-      }
-    );
-    res.send(result);
-  } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+  console.log(req.body);
+  if (req.body !== []) {
+    try {
+      const result = query(
+        `UPDATE users SET isBlocked='1' WHERE id IN (${id_list})`,
+        (stat) => {
+          console.log(stat);
+        }
+      );
+      res.send(result);
+    } catch (err) {
+      res.status(500).send(err);
+      console.log(err);
+    }
+  } else {
+    res.status(304).send("checked list empty");
   }
 });
 
 router.post("/unblock", async (req, res) => {
   const id_list = req.body.join(",");
   console.log(req.body.join(","));
-  try {
-    const result = query(
-      `UPDATE users SET isBlocked='0' WHERE id IN (${id_list})`,
-      (stat) => {
-        console.log(stat);
-      }
-    );
-    res.send(result);
-  } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+  if (req.body !== []) {
+    try {
+      const result = query(
+        `UPDATE users SET isBlocked='0' WHERE id IN (${id_list})`,
+        (stat) => {
+          console.log(stat);
+        }
+      );
+      res.send(result);
+    } catch (err) {
+      res.status(500).send(err);
+      console.log(err);
+    }
+  } else {
+    res.status(304).send("checked list empty");
   }
 });
 
