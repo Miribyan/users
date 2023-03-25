@@ -237,17 +237,21 @@ router.post("/unblock", async (req, res) => {
 
 router.delete("/delete", (req, res) => {
   const id_list = req.body.join(",");
-  try {
-    const result = query(
-      `DELETE FROM users WHERE id IN (${id_list})`,
-      (stat) => {
-        console.log(stat);
-      }
-    );
-    res.send(result);
-  } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+  if (id_list !== "") {
+    try {
+      const result = query(
+        `DELETE FROM users WHERE id IN (${id_list})`,
+        (stat) => {
+          console.log(stat);
+        }
+      );
+      res.send(result);
+    } catch (err) {
+      res.status(500).send(err);
+      console.log(err);
+    }
+  } else {
+    res.status(412).send("checked list empty");
   }
 });
 
