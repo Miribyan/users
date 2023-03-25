@@ -182,7 +182,7 @@ router.post("/reginfo", async (req, res) => {
             `INSERT INTO users (id,name, lastname, email, password) VALUES ("${id}","${name}", "${lastname}", "${email}", "${hash}")`,
             (result) => {
               if (result) {
-                id++
+                id=id+1
                 
                 res.status(200).send("Registered successfully");
                 return;
