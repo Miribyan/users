@@ -196,7 +196,7 @@ router.post("/reginfo", async (req, res) => {
 router.post("/block", (req, res) => {
   const id_list = req.body.join(",");
   console.log(req.body);
-  if (req.body !== []) {
+  if (id_list !== "") {
     try {
       const result = query(
         `UPDATE users SET isBlocked='1' WHERE id IN (${id_list})`,
@@ -210,14 +210,14 @@ router.post("/block", (req, res) => {
       console.log(err);
     }
   } else {
-    res.status(304).send("checked list empty");
+    res.status(412).send("checked list empty");
   }
 });
 
 router.post("/unblock", async (req, res) => {
   const id_list = req.body.join(",");
   console.log(req.body.join(","));
-  if (req.body !== []) {
+  if (id_list !== "") {
     try {
       const result = query(
         `UPDATE users SET isBlocked='0' WHERE id IN (${id_list})`,
@@ -231,7 +231,7 @@ router.post("/unblock", async (req, res) => {
       console.log(err);
     }
   } else {
-    res.status(304).send("checked list empty");
+    res.status(412).send("checked list empty");
   }
 });
 
