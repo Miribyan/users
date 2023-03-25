@@ -175,7 +175,7 @@ function Table(props) {
     <div class="mt-10 px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-3xl font-semibold leading-6 text-gray-900">
+          <h1 className="text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl">
             EDITABLE USERLIST FOR TASK 4
           </h1>
         </div>
