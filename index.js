@@ -179,7 +179,7 @@ router.post("/reginfo", async (req, res) => {
           return;
         } else {
           query(
-            `INSERT INTO users (id,name, lastname, email, password) VALUES ("${id}","${name}", "${lastname}", "${email}", "${hash}")`,
+            `INSERT INTO users (name, lastname, email, password) VALUES ("${name}", "${lastname}", "${email}", "${hash}")`,
             (result) => {
               if (result) {
               
