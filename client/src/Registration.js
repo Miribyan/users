@@ -1,7 +1,6 @@
 import Button from "./components/Button";
-import Input from "./components/Input";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 function Registration() {
   const navigate = useNavigate();
@@ -10,6 +9,7 @@ function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
+  
 
   const inputClasses =
     "mt-2 block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
@@ -21,6 +21,7 @@ function Registration() {
       lastname: lastName,
       email: email,
       password: password,
+      
     };
 
     console.log(firstName, lastName, email, password);
@@ -42,6 +43,7 @@ function Registration() {
       }
       if (result.status === 200) {
         setErr("Registered successfully");
+        
       }
     });
   };

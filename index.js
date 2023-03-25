@@ -159,8 +159,8 @@ router.post("/reginfo", async (req, res) => {
   const name = req.body.name;
   const lastname = req.body.lastname;
   const email = req.body.email;
-  const id = 1
- console.log(id)
+  
+ 
   if (!name || !lastname || !email || !req.body.password) {
     res.status(408).send("Fields can't be empty");
     return;
@@ -182,7 +182,7 @@ router.post("/reginfo", async (req, res) => {
             `INSERT INTO users (id,name, lastname, email, password) VALUES ("${id}","${name}", "${lastname}", "${email}", "${hash}")`,
             (result) => {
               if (result) {
-                id=id+1
+              
                 
                 res.status(200).send("Registered successfully");
                 return;

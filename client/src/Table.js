@@ -365,7 +365,7 @@ function Table(props) {
                         />
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.id}
+                        {(person.id-1)/10+1}
                       </td>
                       <td
                         className={classNames(
